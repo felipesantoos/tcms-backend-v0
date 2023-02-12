@@ -1,0 +1,2 @@
+id;name;description;is_active;is_deleted;created_at;updated_at
+6424e4d0-e3d3-40bb-ba03-5ea0d55ba4c6;GLEITOS;Sistema de regulação para transferência de pacientes.;true;false;2023-02-12 04:29:42.082820 +00:00;2023-02-12 04:29:42.082820 +00:00

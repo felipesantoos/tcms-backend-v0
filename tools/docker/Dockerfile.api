@@ -1,0 +1,19 @@
+FROM golang:1.19-bullseye
+
+WORKDIR /backend
+
+ENV GOPATH /go
+ENV PATH $PATH:/$GOPATH/bin
+ENV DATABASE_SSLMODE disable
+
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /opt/bin/
+RUN chmod +x /opt/bin/wait-for-it.sh
+RUN go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+
+RUN mkdir tools
+COPY src src
+RUN chmod +x src/api/app/start.sh
+
+COPY tools/database tools/database
+
+CMD /opt/bin/wait-for-it.sh --timeout=20 $DATABASE_HOST:$DATABASE_PORT -- src/api/app/start.sh
