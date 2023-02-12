@@ -1,0 +1,7 @@
+version: 1
+packages:
+  - path: ../connector
+    name: connector
+    engine: postgresql
+    schema: ../../../../../tools/database/postgres/migrations
+    queries: queries
