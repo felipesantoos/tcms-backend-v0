@@ -31,6 +31,10 @@ func (instance ValidationError) Equals(err Error) bool {
 		errorToCompare.invalidFields)
 }
 
+func (instance ValidationError) InvalidFields() []InvalidField {
+	return instance.invalidFields
+}
+
 func NewValidationError(message string, invalidFields ...InvalidField) *ValidationError {
 	return &ValidationError{
 		superError:    newSuperError(),

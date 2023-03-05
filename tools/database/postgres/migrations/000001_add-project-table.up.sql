@@ -11,8 +11,7 @@ create table if not exists project (
         constraint df_project_is_active default true,
     is_deleted bool not null
         constraint df_project_is_deleted default false,
-    created_at timestamp
+    created_at timestamp not null
         constraint df_project_created_at default now(),
-    updated_at timestamp
-        constraint df_project_updated_at default now()
+    updated_at timestamp null
 );
