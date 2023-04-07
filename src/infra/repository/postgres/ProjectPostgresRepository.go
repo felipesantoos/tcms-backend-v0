@@ -1,6 +1,8 @@
 package postgres
 
 import (
+	"fmt"
+	"github.com/felipesantoos/tcms/src/core/filters"
 	"github.com/felipesantoos/tcms/src/core/interfaces/repository"
 	"github.com/felipesantoos/tcms/src/core/models/project"
 	"github.com/felipesantoos/tcms/src/infra/interfaces/databases"
@@ -14,14 +16,16 @@ type ProjectPostgresRepository struct {
 	databases.DatabaseManager
 }
 
-func (instance *ProjectPostgresRepository) GetProjects() ([]project.Project, error) {
+func (instance *ProjectPostgresRepository) GetProjects(projectFilters filters.ProjectFilters) ([]project.Project,
+	error) {
 	connection, err := instance.GetConnection()
 	if err != nil {
 		return nil, err
 	}
 
 	projectDTOs := make([]orm.Project, 0)
-	result := connection.Find(&projectDTOs)
+	result := connection.Where("name LIKE ?", fmt.Sprintf("%%%s%%", projectFilters.Name)).
+		Find(&projectDTOs)
 	if result.Error != nil {
 		return nil, result.Error
 	}

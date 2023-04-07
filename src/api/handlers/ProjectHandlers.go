@@ -5,6 +5,7 @@ import (
 	"github.com/felipesantoos/tcms/src/api/handlers/dto/response"
 	"github.com/felipesantoos/tcms/src/api/handlers/keys"
 	"github.com/felipesantoos/tcms/src/api/handlers/params"
+	"github.com/felipesantoos/tcms/src/core/filters"
 	"github.com/felipesantoos/tcms/src/core/interfaces/usecases"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -16,7 +17,10 @@ type ProjectHandlers struct {
 }
 
 func (instance *ProjectHandlers) GetProjects(context *gin.Context) {
-	projects, err := instance.projectServices.GetProjects()
+	name := context.Query(params.Name)
+	projectFilters := filters.ProjectFilters{Name: name}
+
+	projects, err := instance.projectServices.GetProjects(projectFilters)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{keys.Error: err.Error()})
 		return

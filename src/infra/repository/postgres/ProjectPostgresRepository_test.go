@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"github.com/felipesantoos/tcms/src/core/filters"
 	"github.com/felipesantoos/tcms/src/infra/repository/postgres/orm"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
@@ -25,7 +26,7 @@ func TestGetProjects_Success(t *testing.T) {
 
 	// Create a new instance of the repository and call the GetProjects method
 	repository := NewProjectPostgresRepository(NewConnector())
-	projects, err := repository.GetProjects()
+	projects, err := repository.GetProjects(filters.ProjectFilters{})
 	assert.NoError(t, err)
 
 	// Check that the returned project has the expected values
@@ -43,7 +44,7 @@ func TestGetProjects_EmptyResult(t *testing.T) {
 
 	// Create a new instance of the repository and call the GetProjects method
 	repository := NewProjectPostgresRepository(NewConnector())
-	projects, err := repository.GetProjects()
+	projects, err := repository.GetProjects(filters.ProjectFilters{})
 	assert.NoError(t, err)
 
 	// Check that the returned project slice is empty
@@ -55,7 +56,7 @@ func TestGetProjects_DatabaseError(t *testing.T) {
 	repository := &ProjectPostgresRepository{ConnectorMock{}}
 
 	// Call the GetProjects method and check that an error is returned
-	projects, err := repository.GetProjects()
+	projects, err := repository.GetProjects(filters.ProjectFilters{})
 
 	assert.Error(t, err, "an error should have been returned")
 	assert.Nil(t, projects, "projects should be nil")

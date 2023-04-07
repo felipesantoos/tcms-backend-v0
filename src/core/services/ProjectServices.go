@@ -1,6 +1,7 @@
 package services
 
 import (
+	"github.com/felipesantoos/tcms/src/core/filters"
 	"github.com/felipesantoos/tcms/src/core/interfaces/repository"
 	"github.com/felipesantoos/tcms/src/core/interfaces/usecases"
 	"github.com/felipesantoos/tcms/src/core/models/project"
@@ -13,8 +14,8 @@ type ProjectServices struct {
 	projectRepository repository.ProjectLoader
 }
 
-func (instance *ProjectServices) GetProjects() ([]project.Project, error) {
-	return instance.projectRepository.GetProjects()
+func (instance *ProjectServices) GetProjects(projectFilters filters.ProjectFilters) ([]project.Project, error) {
+	return instance.projectRepository.GetProjects(projectFilters)
 }
 
 func (instance *ProjectServices) GetProject(projectID uuid.UUID) (*project.Project, error) {
