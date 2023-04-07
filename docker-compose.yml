@@ -1,22 +1,21 @@
 version: '3'
 services:
-  api:
-    container_name: tcms_api
-    build:
-      context: .
-      dockerfile: tools/docker/Dockerfile.api
-    env_file:
-      - src/api/app/.env
-    ports:
-      - '8000:8000'
-    depends_on:
-      - database
-  database:
-    container_name: tcms_database
-    build:
-      context: .
-      dockerfile: tools/docker/Dockerfile.postgres
-    env_file:
-      - src/api/app/.env
+  postgres:
+    image: 'postgres'
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=root
     ports:
       - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@localhost.com'
+      PGADMIN_DEFAULT_PASSWORD: '12345678'
+    ports:
+      - '54321:80'
+    depends_on:
+      - postgres
