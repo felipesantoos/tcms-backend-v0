@@ -27,7 +27,7 @@ func (connector Connector) CreateTables() error {
 		return err
 	}
 
-	err = db.AutoMigrate(&orm.Project{})
+	err = db.AutoMigrate(&orm.Project{}, &orm.Requirement{})
 	if err != nil {
 		log.Println(err.Error())
 		return err

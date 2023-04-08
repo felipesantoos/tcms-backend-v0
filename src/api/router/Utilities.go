@@ -5,9 +5,11 @@ import (
 )
 
 const (
-	api       = "/api"
-	project   = "/project"
-	projectID = "/:projectID"
+	api           = "/api"
+	project       = "/project"
+	projectID     = "/:projectID"
+	requirement   = "/requirement"
+	requirementID = "/:requirementID"
 )
 
 func buildRoute(segments ...string) string {

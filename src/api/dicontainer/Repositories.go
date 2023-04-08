@@ -9,6 +9,10 @@ func GetProjectPostgresRepository() repository.ProjectLoader {
 	return postgres.NewProjectPostgresRepository(GetDatabaseManager())
 }
 
+func GetRequirementPostgresRepository() repository.RequirementLoader {
+	return postgres.NewRequirementPostgresRepository(GetDatabaseManager())
+}
+
 func GetDatabaseManager() *postgres.Connector {
 	return postgres.NewConnector()
 }

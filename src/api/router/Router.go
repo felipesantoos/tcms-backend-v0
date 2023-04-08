@@ -14,4 +14,5 @@ func New() *Router {
 
 func (router *Router) LoadRoutes() {
 	loadProjectRoutes(router)
+	loadRequirementRoutes(router)
 }

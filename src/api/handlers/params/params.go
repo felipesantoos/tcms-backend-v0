@@ -1,6 +1,7 @@
 package params
 
 const (
-	ProjectID = "projectID"
-	Name      = "name"
+	ProjectID     = "projectID"
+	RequirementID = "requirementID"
+	Name          = "name"
 )

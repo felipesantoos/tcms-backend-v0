@@ -12,5 +12,5 @@ type Project struct {
 }
 
 func (instance *Project) ConvertToModel() *project.Project {
-	return project.New(instance.ID, instance.Name, instance.Description)
+	return project.NewForShortView(instance.ID, instance.Name, instance.Description)
 }
