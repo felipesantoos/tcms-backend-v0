@@ -11,10 +11,11 @@ import (
 )
 
 func TestGetProjects_Success(t *testing.T) {
+	SetUpTables()
+
 	// Create a test database and get a connection to it
 	testDB, err := gorm.Open(postgres.Open("host=localhost user=root password=root dbname=root port=5432"))
 	assert.NoError(t, err)
-	defer testDB.Exec("DELETE FROM projects")
 
 	// Create a new project
 	newProject := &orm.Project{
@@ -37,10 +38,7 @@ func TestGetProjects_Success(t *testing.T) {
 }
 
 func TestGetProjects_EmptyResult(t *testing.T) {
-	// Create a test database and get a connection to it
-	testDB, err := gorm.Open(postgres.Open("host=localhost user=root password=root dbname=root port=5432"))
-	assert.NoError(t, err)
-	defer testDB.Exec("DELETE FROM projects")
+	SetUpTables()
 
 	// Create a new instance of the repository and call the GetProjects method
 	repository := NewProjectPostgresRepository(NewConnector())
@@ -93,7 +91,9 @@ func TestGetProject_ProjectNotFound(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to connect to database: %v", err)
 	}
-	defer testDB.Exec("DELETE FROM projects")
+	testDB.Table(requerimentTestCases).Unscoped().Where(requirementIDIsNotNull).Delete(nil)
+	testDB.Unscoped().Where(idIsNotNull).Delete(&orm.TestCaseStep{})
+	testDB.Unscoped().Where(idIsNotNull).Delete(&orm.TestCase{})
 
 	// Generate a new project ID
 	projectID := uuid.New()

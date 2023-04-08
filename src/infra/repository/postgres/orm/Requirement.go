@@ -7,14 +7,15 @@ import (
 )
 
 type Requirement struct {
-	ID          uuid.UUID      `gorm:"primaryKey;type:uuid;sql:type:uuid;default:gen_random_uuid()"`
-	CreatedAt   time.Time      `gorm:"autoCreateTime"`
-	UpdatedAt   time.Time      `gorm:"autoUpdateTime"`
+	ID          uuid.UUID `gorm:"primaryKey;type:uuid;sql:type:uuid;default:gen_random_uuid()"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
 	Name        string
 	Description string
 	ProjectID   uuid.UUID
 	Project     Project
+	TestCases   []TestCase `gorm:"many2many:requeriment_test_cases"`
 }
 
 func (requirementDTO *Requirement) BeforeCreate(tx *gorm.DB) error {

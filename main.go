@@ -11,7 +11,7 @@ func main() {
 }
 
 func configurateDatabase() {
-	err := postgres.NewConnector().CreateTables()
+	err := postgres.CreateTables()
 	if err != nil {
 		panic(err)
 	}
