@@ -88,8 +88,8 @@ func LoadFakeData() error {
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
 		DeletedAt:   gorm.DeletedAt{},
-		Name:        "Project of example",
-		Description: "Description of example.",
+		Name:        "Neon Nexus",
+		Description: "An intuitive platform for managing software projects. Collaborate seamlessly with your team and streamline your workflow. With built-in reporting and analytics, stay on top of your progress and make data-driven decisions.",
 		IsActive:    true,
 	}
 

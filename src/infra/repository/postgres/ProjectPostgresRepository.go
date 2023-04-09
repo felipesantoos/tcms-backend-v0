@@ -32,8 +32,14 @@ func (instance *ProjectPostgresRepository) GetProjects(projectFilters filters.Pr
 
 	projectList := make([]project.Project, 0)
 	for _, projectDTO := range projectDTOs {
-		projectList = append(projectList, *project.NewForShortView(projectDTO.ID, projectDTO.Name,
-			projectDTO.Description))
+		projectBuilder := project.NewBuilder()
+		projectBuilder.ID(projectDTO.ID).Name(projectDTO.Name).Description(projectDTO.Description)
+		_project, err := projectBuilder.Build()
+		if err != nil {
+			return nil, err
+		}
+
+		projectList = append(projectList, *_project)
 	}
 
 	return projectList, nil
@@ -51,8 +57,13 @@ func (instance *ProjectPostgresRepository) GetProject(projectID uuid.UUID) (*pro
 		return nil, result.Error
 	}
 
-	_project := project.NewForDetailedView(projectDTO.ID, projectDTO.CreatedAt, projectDTO.UpdatedAt,
-		projectDTO.DeletedAt.Time, projectDTO.Name, projectDTO.Description)
+	projectBuilder := project.NewBuilder()
+	projectBuilder.ID(projectDTO.ID).CreatedAt(projectDTO.CreatedAt).UpdatedAt(projectDTO.UpdatedAt).
+		DeletedAt(projectDTO.DeletedAt.Time).Name(projectDTO.Name).Description(projectDTO.Description)
+	_project, err := projectBuilder.Build()
+	if err != nil {
+		return nil, err
+	}
 
 	return _project, nil
 }

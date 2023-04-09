@@ -1,6 +1,7 @@
 package requirement
 
 import (
+	"github.com/felipesantoos/tcms/src/core/models/tc"
 	"github.com/google/uuid"
 	"reflect"
 	"time"
@@ -14,6 +15,7 @@ type Requirement struct {
 	name        string
 	description string
 	projectID   uuid.UUID
+	testCases   []tc.TestCase
 }
 
 func (instance *Requirement) ID() uuid.UUID {
@@ -42,6 +44,10 @@ func (instance *Requirement) Description() string {
 
 func (instance *Requirement) ProjectID() uuid.UUID {
 	return instance.projectID
+}
+
+func (instance *Requirement) TestCases() []tc.TestCase {
+	return instance.testCases
 }
 
 func (instance *Requirement) IsZero() bool {

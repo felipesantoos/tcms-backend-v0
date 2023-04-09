@@ -7,6 +7,7 @@ import (
 	"github.com/felipesantoos/tcms/src/api/handlers/params"
 	"github.com/felipesantoos/tcms/src/core/filters"
 	"github.com/felipesantoos/tcms/src/core/interfaces/usecases"
+	"github.com/felipesantoos/tcms/src/core/models/project"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"net/http"
@@ -53,7 +54,13 @@ func (instance *ProjectHandlers) CreateProject(context *gin.Context) {
 		return
 	}
 
-	_project := projectDTO.ConvertToModel()
+	projectBuilder := project.NewBuilder()
+	projectBuilder.Name(projectDTO.Name).Description(projectDTO.Description)
+	_project, err := projectBuilder.Build()
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{keys.Error: err.Error()})
+		return
+	}
 
 	projectID, err := instance.projectServices.CreateProject(*_project)
 	if err != nil {
@@ -94,8 +101,13 @@ func (instance *ProjectHandlers) UpdateProject(context *gin.Context) {
 		return
 	}
 
-	projectDTO.ID = projectID
-	_project := projectDTO.ConvertToModel()
+	projectBuilder := project.NewBuilder()
+	projectBuilder.ID(projectID).Name(projectDTO.Name).Description(projectDTO.Description)
+	_project, err := projectBuilder.Build()
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{keys.Error: err.Error()})
+		return
+	}
 
 	err = instance.projectServices.UpdateProject(*_project)
 	if err != nil {

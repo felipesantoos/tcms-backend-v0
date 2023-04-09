@@ -42,22 +42,3 @@ func (instance *Project) Description() string {
 func (instance *Project) IsZero() bool {
 	return reflect.DeepEqual(instance, &Project{})
 }
-
-func NewForShortView(id uuid.UUID, name, description string) *Project {
-	return &Project{
-		id:          id,
-		name:        name,
-		description: description,
-	}
-}
-
-func NewForDetailedView(id uuid.UUID, createdAt, updatedAt, deletedAt time.Time, name, description string) *Project {
-	return &Project{
-		id:          id,
-		name:        name,
-		createdAt:   createdAt,
-		updatedAt:   updatedAt,
-		deletedAt:   deletedAt,
-		description: description,
-	}
-}
