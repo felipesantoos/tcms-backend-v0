@@ -13,7 +13,7 @@ import (
 var _ repository.ProjectLoader = &ProjectPostgresRepository{}
 
 type ProjectPostgresRepository struct {
-	databases.DatabaseManager
+	databases.PostgresDatabaseManager
 }
 
 func (instance *ProjectPostgresRepository) GetProjects(projectFilters filters.ProjectFilters) ([]project.Project,
@@ -112,6 +112,6 @@ func (instance *ProjectPostgresRepository) UpdateProject(_project project.Projec
 	return nil
 }
 
-func NewProjectPostgresRepository(connector databases.DatabaseManager) *ProjectPostgresRepository {
+func NewProjectPostgresRepository(connector databases.PostgresDatabaseManager) *ProjectPostgresRepository {
 	return &ProjectPostgresRepository{connector}
 }

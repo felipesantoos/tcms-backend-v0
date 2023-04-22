@@ -6,7 +6,7 @@ import (
 )
 
 func GetProjectServices() usecases.ProjectManager {
-	return services.NewProjectServices(GetProjectPostgresRepository())
+	return services.NewProjectServices(GetProjectMongoRepository())
 }
 
 func GetRequirementServices() usecases.RequirementManager {

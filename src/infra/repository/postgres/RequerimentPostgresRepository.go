@@ -13,7 +13,7 @@ import (
 var _ repository.RequirementLoader = &RequirementPostgresRepository{}
 
 type RequirementPostgresRepository struct {
-	databases.DatabaseManager
+	databases.PostgresDatabaseManager
 }
 
 func (instance *RequirementPostgresRepository) GetRequirements(requirementFilters filters.RequirementFilters) (
@@ -106,6 +106,6 @@ func (instance *RequirementPostgresRepository) UpdateRequirement(_requirement re
 	return nil
 }
 
-func NewRequirementPostgresRepository(connector databases.DatabaseManager) *RequirementPostgresRepository {
+func NewRequirementPostgresRepository(connector databases.PostgresDatabaseManager) *RequirementPostgresRepository {
 	return &RequirementPostgresRepository{connector}
 }

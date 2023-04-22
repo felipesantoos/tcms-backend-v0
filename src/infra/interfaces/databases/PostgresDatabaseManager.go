@@ -4,6 +4,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type DatabaseManager interface {
+type PostgresDatabaseManager interface {
 	GetConnection() (*gorm.DB, error)
 }
