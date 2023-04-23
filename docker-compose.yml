@@ -19,3 +19,29 @@ services:
       - '54321:80'
     depends_on:
       - postgres
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_DATABASE: tcms_mongo_db
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: tcmsM0ng0
+    ports:
+      - '27017:27017'
+    networks:
+      - tcms-network
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - '8081:8081'
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongo
+      ME_CONFIG_MONGODB_ADMINPASSWORD: tcmsM0ng0
+    depends_on:
+      - mongo
+    networks:
+      - tcms-network
+networks:
+  tcms-network:
+    driver: bridge
