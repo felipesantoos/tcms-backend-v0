@@ -77,7 +77,7 @@ func (instance *ProjectMongoRepository) GetProject(projectID uuid.UUID) (*projec
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 
 	var projectDTO dto.Project
-	err = mongoCollection.FindOne(context.TODO(), bson.M{"_id": projectID.String()}).Decode(&projectDTO)
+	err = mongoCollection.FindOne(context.TODO(), bson.M{"_id": projectID.String(), "is_active": true}).Decode(&projectDTO)
 	if err != nil {
 		return nil, err
 	}
