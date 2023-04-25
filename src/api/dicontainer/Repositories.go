@@ -22,6 +22,10 @@ func GetProjectMongoRepository() repository.ProjectLoader {
 	return mongo.NewProjectMongoRepository(GetMongoDatabaseManager())
 }
 
+func GetRequirementMongoRepository() repository.RequirementLoader {
+	return mongo.NewRequirementMongoRepository(GetMongoDatabaseManager())
+}
+
 func GetMongoDatabaseManager() *mongo.Connector {
 	return mongo.NewConnector()
 }

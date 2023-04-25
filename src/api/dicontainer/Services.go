@@ -10,5 +10,5 @@ func GetProjectServices() usecases.ProjectManager {
 }
 
 func GetRequirementServices() usecases.RequirementManager {
-	return services.NewRequirementServices(GetRequirementPostgresRepository())
+	return services.NewRequirementServices(GetRequirementMongoRepository())
 }

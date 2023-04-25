@@ -15,8 +15,9 @@ func NewConnector() *Connector {
 }
 
 var (
-	Database          = "tcms_mongo_db"
-	ProjectCollection = "project"
+	Database              = "tcms_mongo_db"
+	ProjectCollection     = "project"
+	RequirementCollection = "requirement"
 )
 
 func (connector Connector) GetConnection() (*mongo.Client, error) {
