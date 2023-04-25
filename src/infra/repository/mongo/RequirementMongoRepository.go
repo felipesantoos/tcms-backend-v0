@@ -45,10 +45,6 @@ func (instance *RequirementMongoRepository) GetRequirements(requirementFilters f
 
 	requirementList := make([]requirement.Requirement, 0)
 	for _, requirementDTO := range requirementDTOs {
-		/*if requirementDTO.IsActive == false {
-			continue
-		}*/
-
 		requirementUuid, err := uuid.Parse(requirementDTO.ID)
 		if err != nil {
 			return nil, err
@@ -86,9 +82,14 @@ func (instance *RequirementMongoRepository) GetRequirement(requirementID uuid.UU
 		return nil, err
 	}
 
+	projectUuid, err := uuid.Parse(requirementDTO.ProjectID)
+	if err != nil {
+		return nil, err
+	}
+
 	_requirement := requirement.NewForDetailedView(requirementID, requirementDTO.CreatedAt,
 		requirementDTO.UpdatedAt, requirementDTO.DeletedAt, requirementDTO.Name, requirementDTO.Description,
-		requirementDTO.ProjectID)
+		projectUuid)
 
 	return _requirement, nil
 }
