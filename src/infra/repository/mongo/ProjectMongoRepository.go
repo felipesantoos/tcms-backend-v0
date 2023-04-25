@@ -27,7 +27,9 @@ func (instance *ProjectMongoRepository) GetProjects(projectFilters filters.Proje
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 
-	projectFiltersInMongoFormat := bson.M{}
+	projectFiltersInMongoFormat := bson.M{
+		"is_active": true,
+	}
 	if projectFilters.Name != "" {
 		projectFiltersInMongoFormat["name"] = bson.M{"$regex": primitive.Regex{Pattern: projectFilters.Name, Options: "i"}}
 	}
@@ -45,10 +47,6 @@ func (instance *ProjectMongoRepository) GetProjects(projectFilters filters.Proje
 
 	projectList := make([]project.Project, 0)
 	for _, projectDTO := range projectDTOs {
-		if projectDTO.IsActive == false {
-			continue
-		}
-
 		projectUuid, err := uuid.Parse(projectDTO.ID)
 		if err != nil {
 			return nil, err
@@ -126,7 +124,7 @@ func (instance *ProjectMongoRepository) DeleteProject(projectID uuid.UUID) error
 		bson.E{Key: "deleted_at", Value: time.Now()},
 		bson.E{Key: "is_active", Value: false},
 	}
-	_, err = mongoCollection.UpdateOne(context.TODO(), bson.M{"_id": projectID.String()}, bson.D{{"$set", fieldsToUpdate}})
+	_, err = mongoCollection.UpdateOne(context.TODO(), bson.M{"_id": projectID.String(), "is_active": true}, bson.D{{"$set", fieldsToUpdate}})
 	if err != nil {
 		return err
 	}
@@ -146,7 +144,7 @@ func (instance *ProjectMongoRepository) UpdateProject(_project project.Project) 
 		bson.E{Key: "name", Value: _project.Name()},
 		bson.E{Key: "description", Value: _project.Description()},
 	}
-	_, err = mongoCollection.UpdateOne(context.TODO(), bson.M{"_id": _project.ID().String()}, bson.D{{"$set", fieldsToUpdate}})
+	_, err = mongoCollection.UpdateOne(context.TODO(), bson.M{"_id": _project.ID().String(), "is_active": true}, bson.D{{"$set", fieldsToUpdate}})
 	if err != nil {
 		return err
 	}
