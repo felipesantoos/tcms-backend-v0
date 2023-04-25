@@ -139,7 +139,7 @@ func (instance *RequirementMongoRepository) UpdateRequirement(_requirement requi
 		bson.E{Key: "updated_at", Value: time.Now()},
 		bson.E{Key: "name", Value: _requirement.Name()},
 		bson.E{Key: "description", Value: _requirement.Description()},
-		bson.E{Key: "project_id", Value: _requirement.ProjectID()},
+		bson.E{Key: "project_id", Value: _requirement.ProjectID().String()},
 	}
 	_, err = mongoCollection.UpdateOne(context.TODO(), bson.M{"_id": _requirement.ID().String()}, bson.D{{"$set", fieldsToUpdate}})
 	if err != nil {
