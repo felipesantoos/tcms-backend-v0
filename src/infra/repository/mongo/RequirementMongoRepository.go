@@ -24,6 +24,7 @@ func (instance *RequirementMongoRepository) GetRequirements(requirementFilters f
 	if err != nil {
 		return nil, err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(RequirementCollection)
 
@@ -73,6 +74,7 @@ func (instance *RequirementMongoRepository) GetRequirement(requirementID uuid.UU
 	if err != nil {
 		return nil, err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(RequirementCollection)
 
@@ -99,6 +101,7 @@ func (instance *RequirementMongoRepository) CreateRequirement(_requirement requi
 	if err != nil {
 		return nil, err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(RequirementCollection)
 
@@ -118,6 +121,7 @@ func (instance *RequirementMongoRepository) DeleteRequirement(requirementID uuid
 	if err != nil {
 		return err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(RequirementCollection)
 
@@ -133,6 +137,7 @@ func (instance *RequirementMongoRepository) UpdateRequirement(_requirement requi
 	if err != nil {
 		return err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(RequirementCollection)
 	fieldsToUpdate := bson.D{

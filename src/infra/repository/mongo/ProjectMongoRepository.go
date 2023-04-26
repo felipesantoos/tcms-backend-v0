@@ -24,6 +24,7 @@ func (instance *ProjectMongoRepository) GetProjects(projectFilters filters.Proje
 	if err != nil {
 		return nil, err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 
@@ -70,6 +71,7 @@ func (instance *ProjectMongoRepository) GetProject(projectID uuid.UUID) (*projec
 	if err != nil {
 		return nil, err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 
@@ -100,6 +102,7 @@ func (instance *ProjectMongoRepository) CreateProject(_project project.Project) 
 	if err != nil {
 		return nil, err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 
@@ -118,6 +121,7 @@ func (instance *ProjectMongoRepository) DeleteProject(projectID uuid.UUID) error
 	if err != nil {
 		return err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 	fieldsToUpdate := bson.D{
@@ -137,6 +141,7 @@ func (instance *ProjectMongoRepository) UpdateProject(_project project.Project) 
 	if err != nil {
 		return err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 	fieldsToUpdate := bson.D{
