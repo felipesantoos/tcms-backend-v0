@@ -19,12 +19,12 @@ type ProjectMongoRepository struct {
 	databases.MongoDatabaseManager
 }
 
-func (instance *ProjectMongoRepository) GetProjects(projectFilters filters.ProjectFilters) ([]project.Project,
-	error) {
+func (instance *ProjectMongoRepository) GetProjects(projectFilters filters.ProjectFilters) ([]project.Project, error) {
 	connection, err := instance.GetConnection()
 	if err != nil {
 		return nil, err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 
@@ -71,6 +71,7 @@ func (instance *ProjectMongoRepository) GetProject(projectID uuid.UUID) (*projec
 	if err != nil {
 		return nil, err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 
@@ -101,17 +102,18 @@ func (instance *ProjectMongoRepository) CreateProject(_project project.Project) 
 	if err != nil {
 		return nil, err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 
-	productUuid := uuid.New()
-	projectDTO := dto.NewProject(productUuid, time.Now(), time.Now(), time.Time{}, _project.Name(), _project.Description(), true)
+	projectUuid := uuid.New()
+	projectDTO := dto.NewProject(projectUuid, time.Now(), time.Now(), time.Time{}, _project.Name(), _project.Description(), true)
 	_, err = mongoCollection.InsertOne(context.TODO(), projectDTO)
 	if err != nil {
 		return nil, err
 	}
 
-	return &productUuid, nil
+	return &projectUuid, nil
 }
 
 func (instance *ProjectMongoRepository) DeleteProject(projectID uuid.UUID) error {
@@ -119,6 +121,7 @@ func (instance *ProjectMongoRepository) DeleteProject(projectID uuid.UUID) error
 	if err != nil {
 		return err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 	fieldsToUpdate := bson.D{
@@ -138,6 +141,7 @@ func (instance *ProjectMongoRepository) UpdateProject(_project project.Project) 
 	if err != nil {
 		return err
 	}
+	defer connection.Disconnect(context.TODO())
 
 	mongoCollection := connection.Database(Database).Collection(ProjectCollection)
 	fieldsToUpdate := bson.D{
