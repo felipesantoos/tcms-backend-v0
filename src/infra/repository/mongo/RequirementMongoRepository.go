@@ -57,7 +57,7 @@ func (instance *RequirementMongoRepository) GetRequirements(requirementFilters f
 		}
 
 		requirementBuilder := requirement.NewBuilder()
-		requirementBuilder.ID(requirementUuid).Name(requirementDTO.Name).Description(requirementDTO.Description).ProjectId(projectUuid)
+		requirementBuilder.ID(requirementUuid).Name(requirementDTO.Name).Description(requirementDTO.Description).ProjectID(projectUuid)
 		_requirement, err := requirementBuilder.Build()
 		if err != nil {
 			return nil, err

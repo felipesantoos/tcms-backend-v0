@@ -63,7 +63,7 @@ func (instance *builder) Description(description string) *builder {
 	return instance
 }
 
-func (instance *builder) ProjectId(projectId uuid.UUID) *builder {
+func (instance *builder) ProjectID(projectId uuid.UUID) *builder {
 	if projectId.ID() == 0 {
 		instance.invalidFields = append(instance.invalidFields, "O ID do projeto é inválido!")
 		return instance

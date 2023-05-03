@@ -7,6 +7,7 @@ import (
 	"github.com/felipesantoos/tcms/src/api/handlers/params"
 	"github.com/felipesantoos/tcms/src/core/filters"
 	"github.com/felipesantoos/tcms/src/core/interfaces/usecases"
+	"github.com/felipesantoos/tcms/src/core/models/requirement"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"net/http"
@@ -53,7 +54,14 @@ func (instance *RequirementHandlers) CreateRequirement(context *gin.Context) {
 		return
 	}
 
-	_requirement := requirementDTO.ConvertToModel()
+	requirementBuilder := requirement.NewBuilder()
+	requirementBuilder.Name(requirementDTO.Name).Description(requirementDTO.Description).
+		ProjectID(requirementDTO.ProjectID)
+	_requirement, validationError := requirementBuilder.Build()
+	if validationError != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{keys.Error: validationError.Error()})
+		return
+	}
 
 	requirementID, err := instance.requirementServices.CreateRequirement(*_requirement)
 	if err != nil {
@@ -94,8 +102,14 @@ func (instance *RequirementHandlers) UpdateRequirement(context *gin.Context) {
 		return
 	}
 
-	requirementDTO.ID = requirementID
-	_requirement := requirementDTO.ConvertToModel()
+	requirementBuilder := requirement.NewBuilder()
+	requirementBuilder.ID(requirementID).Name(requirementDTO.Name).Description(requirementDTO.Description).
+		ProjectID(requirementDTO.ProjectID)
+	_requirement, validationError := requirementBuilder.Build()
+	if validationError != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{keys.Error: validationError.Error()})
+		return
+	}
 
 	err = instance.requirementServices.UpdateRequirement(*_requirement)
 	if err != nil {

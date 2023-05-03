@@ -1,7 +1,6 @@
 package request
 
 import (
-	"github.com/felipesantoos/tcms/src/core/models/requirement"
 	"github.com/google/uuid"
 	"time"
 )
@@ -14,9 +13,4 @@ type Requirement struct {
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	ProjectID   uuid.UUID `json:"project_id"`
-}
-
-func (instance *Requirement) ConvertToModel() *requirement.Requirement {
-	return requirement.NewForDetailedView(instance.ID, instance.CreatedAt, instance.UpdatedAt, instance.DeletedAt,
-		instance.Name, instance.Description, instance.ProjectID)
 }

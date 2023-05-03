@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	configurateDatabase()
+	//configurateDatabase()
 	configurateServer()
 }
 
